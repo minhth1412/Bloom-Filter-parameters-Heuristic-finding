@@ -24,7 +24,7 @@ def find_q_k_with_theory(N, j):
     # First, initialize those parameters
     ln2 = math.log(2)
     
-    optimal_q = j*N
+    optimal_q = N*j
     optimal_k = j*ln2
     min_prob_fp = prob_fp(optimal_k,optimal_q,N)
       
@@ -52,7 +52,7 @@ def find_q_k_with_theory(N, j):
     # optimal_q = -n*lnp/((ln2)**2)
     
     # Round them with ceiling
-    # optimal_q = int(math.ceil(optimal_q))
+    optimal_q = int(math.ceil(optimal_q))
     optimal_k = int(math.ceil(optimal_k))
     
     # Return q, k
@@ -261,27 +261,25 @@ def read_db(num_rows):
 if __name__ == "__main__":
     data = {
             'N': [],
-            'min(P_fp)': [],
+            'optimal_q': [],
+            'optimal_k': [],
             'q': [],
             'k': [],
             'cost': []
     }
-    for test in range(10):
-        item_counts = (test + 1) * 250
-        
+    for j in range(10):
+        # item_counts is the upperbound of D2
+        item_counts = (j + 1) * 250
         
         vec_key, db = read_db(item_counts)
         print(item_counts)
         # N = 25      # Since the range of district in real dataset has maximum equals 25
         # desired_fp = 0.01
         # min_prob_fp, optimal_q, optimal_k = find_q_k_with_theory(item_counts, desired_fp)
-        for j in range(10):         #Modify the D_2
-            min_prob_fp, optimal_q, optimal_k = find_q_k_with_theory(item_counts, j + 1)
+        for _ in range(100):         #Modify the D_2
+            min_prob_fp, optimal_q, optimal_k = find_q_k_with_theory(250, j+1)
             
-            print("q and k found with theory:")
-            print(f"Optimal q = {optimal_q}")
-            print(f"Optimal k = {optimal_k}")
-            print(f"The minimum probability of False-positive found: {min_prob_fp}")
+            print(f"q and k found with theory: (q, k) = ({optimal_q}, {optimal_k})")
             
             # Create Dv set
             Dv = create_Dv(db)
@@ -299,17 +297,15 @@ if __name__ == "__main__":
             # Stop the timer
             end_time = time.time()
             
-            print("q and k found with running database test:")
-            print(f"Optimal q found = {q}")
-            print(f"Optimal k found = {k}")
+            print(f"q and k found with running database test: (q, k) = ({q}, {k})")
             # Calculate the elapsed time
             elapsed_time = end_time - start_time
 
-            print(f"Elapsed time running database test: {elapsed_time} seconds")
+            print(f"finding time: {elapsed_time} seconds")
             
             data['N'].append(item_counts)
-            # avg_min_fp += min_fp
-            data['min(P_fp)'].append(min_fp)
+            data['optimal_q'].append(optimal_q)
+            data['optimal_k'].append(optimal_k)
             # avg_q += q
             data['q'].append(q)
             # avg_k += k
@@ -326,7 +322,7 @@ if __name__ == "__main__":
     df = pd.DataFrame(data)
         
     # excel_file = 'test_result_hardcode_with_n_equals_' + str(item_counts) + '.xlsx'
-    excel_file = 'test_result_database.xlsx'
+    excel_file = 'test_result_find_q_k_with_database.xlsx'
         
     df.to_excel(excel_file, index=False)
         
