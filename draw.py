@@ -1,7 +1,15 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Dữ liệu bảng 4.2
+# This file is use for other purpose, that is checking time between Bloom Filter using FP-rate = 0.01, and parameters that is
+# calculated from Test_bloom_variable.py file. The numbers below, each of them is the average result, which is calculated from 100 results
+# with the same conditions.
+
+# 4 data below are the results of other work that is further from BF scope, and have nothing to notice on this work. You can know that
+# that other work support a query which can return boolean value. And base on the FP-rate, the result returned may be wrong. (The bigger
+# FP-rate, the more wrong result returned). The time of each function is calculated by the average time of 100 results.
+
+# Plot 4.2: Chart that show runtime of functions that use Bloom Filter with FP-rate = 0.01, and return true for the query.
 data_4_2 = {
     'N': [250, 500, 750, 1000, 1250, 1500, 1750, 2000],
     'commit_4_2': [50.2087, 95.6459, 130.6562, 169.9348, 214.7093, 256.7218, 289.7610, 337.1503],
@@ -10,7 +18,7 @@ data_4_2 = {
     'execution_time_4_2': [404.8523, 771.2792, 1157.0934, 1537.6996, 1927.0494, 2331.3802, 2629.2623, 3104.8206]
 }
 
-# Dữ liệu bảng 4.4
+# Plot 4.4: Chart that show runtime of funtions that use Bloom Filter with parameters from this work, and return true for the query.
 data_4_4 = {
     'N': [250, 500, 750, 1000, 1250, 1500, 1750, 2000],
     'commit_4_4': [36.1799, 69.0325, 98.3444, 133.2830, 170.1691, 178.4985, 176.9156, 223.7173],
@@ -19,7 +27,7 @@ data_4_4 = {
     'execution_time_4_4': [267.1072, 545.8248, 804.7239, 1204.7347, 1501.5904, 1534.1482, 1590.5207, 1994.4261]
 }
 
-# Dữ liệu bảng 4.3
+# Plot 4.3: Chart that show runtime of functions that use Bloom Filter with FP-rate = 0.01, and return false for the query.
 data_4_3 = {
     'N': [250, 500, 750, 1000, 1250, 1500, 1750, 2000],
     'commit_4_3': [48.5605, 94.0926, 128.0318, 163.2266, 211.2313, 242.1553, 299.7898, 350.3360],
@@ -28,7 +36,7 @@ data_4_3 = {
     'execution_time_4_3': [404.1362, 724.0072, 1150.5271, 1623.4981, 1936.6037, 2206.7247, 2789.8722, 3102.3089]
 }
 
-# Dữ liệu bảng 4.5
+# Plot 4.5: Chart that show runtime of funtions that use Bloom Filter with parameters from this work, and return false for the query.
 data_4_5 = {
     'N': [250, 500, 750, 1000, 1250, 1500, 1750, 2000],
     'commit_4_5': [47.6849, 30.9004, 115.1021, 156.7491, 189.6461, 168.1094, 248.9460, 263.9163],
@@ -37,16 +45,16 @@ data_4_5 = {
     'execution_time_4_5': [362.8521, 224.3038, 903.3621, 1387.5186, 1542.4667, 1559.4922, 2256.8272, 2373.8093]
 }
 
-# Chuyển dữ liệu thành DataFrame
+# Change data into DataFrame
 df_4_2 = pd.DataFrame(data_4_2)
 df_4_4 = pd.DataFrame(data_4_4)
 df_4_3 = pd.DataFrame(data_4_3)
 df_4_5 = pd.DataFrame(data_4_5)
 
-# Tạo các biểu đồ
+# Create plots
 fig, axs = plt.subplots(2, 2, figsize=(14, 10))
 
-# Biểu đồ so sánh giữa Bảng 4.2 và Bảng 4.4
+# Comparison between Plot 4.2 and Plot 4.4  
 axs[0, 0].plot(df_4_2['N'], df_4_2['commit_4_2'], label='Commit (4.2)', marker='o')
 axs[0, 0].plot(df_4_4['N'], df_4_4['commit_4_4'], label='Commit (4.4)', marker='o')
 axs[0, 0].set_title('Commit Time Comparison (4.2 vs 4.4)')
@@ -78,10 +86,9 @@ axs[1, 1].legend()
 plt.tight_layout()
 plt.show()
 
-# Tạo các biểu đồ so sánh giữa Bảng 4.3 và Bảng 4.5
+# Comparison between Plot 4.2 and Plot 4.4 
 fig, axs = plt.subplots(2, 2, figsize=(14, 10))
 
-# Biểu đồ so sánh giữa Bảng 4.3 và Bảng 4.5
 axs[0, 0].plot(df_4_3['N'], df_4_3['commit_4_3'], label='Commit (4.3)', marker='o')
 axs[0, 0].plot(df_4_5['N'], df_4_5['commit_4_5'], label='Commit (4.5)', marker='o')
 axs[0, 0].set_title('Commit Time Comparison (4.3 vs 4.5)')
